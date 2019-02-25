@@ -3,7 +3,6 @@ import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {Step1State, TransferAppState} from '../reducers/state-model';
 import {FormGroupState} from 'ngrx-forms';
-import {SET_AMOUNT, SetAmount} from '../actions/make-transfer.action';
 
 @Component({
   selector: 'app-step1',
@@ -24,10 +23,6 @@ export class Step1Component implements OnInit {
     this.store.select(s => s.makeTransfer).subscribe((res) => {
       console.log(res);
     });
-  }
-
-  setStep1Info() {
-    this.store.dispatch(new SetAmount(5));
   }
 
 }

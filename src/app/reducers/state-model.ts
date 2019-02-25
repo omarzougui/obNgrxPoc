@@ -13,9 +13,6 @@ export interface Step3State {
   motive: string;
 }
 
-
-
-
 export interface TransferAppState {
   formState1: FormGroupState<Step1State>;
   formState2: FormGroupState<Step2State>;
