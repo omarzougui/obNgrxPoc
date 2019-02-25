@@ -1,0 +1,16 @@
+<h1>Step 1</h1>
+
+
+<div *ngIf="(formState1$ | async) as formState1">
+  <form novalidate [ngrxFormState]="formState1">
+    <input type="number" [ngrxFormControlState]="formState1.controls.amount">
+    <br>
+    <input type="checkbox" [ngrxFormControlState]="formState1.controls.isVIP">
+  </form>
+</div>
+<br>
+<br>
+<button (click)="logState()">logState</button>
+<br>
+<br>
+<button (click)="setStep1Info()">setStep1Info</button>
