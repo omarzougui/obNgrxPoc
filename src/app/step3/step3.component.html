@@ -1,3 +1,9 @@
-<p>
-  step3 works!
-</p>
+<h1>Step 3</h1>
+
+<div *ngIf="(formState3$ | async) as formState3">
+  <form novalidate [ngrxFormState]="formState3">
+    motive <input type="text" [ngrxFormControlState]="formState3.controls.motive" [readOnly]="(motiveReadonly | async)">
+  </form>
+</div>
+
+{{motiveReadonly | async}}

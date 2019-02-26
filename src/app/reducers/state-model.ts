@@ -19,4 +19,10 @@ export interface TransferAppState {
   formState3: FormGroupState<Step3State>;
   currentPage: number;
   nextPage: number;
+  prevPage: number;
+  config: {
+    maxAmount: number;
+    amountReadonly?: boolean;
+    motiveReadonly?: boolean;
+  };
 }

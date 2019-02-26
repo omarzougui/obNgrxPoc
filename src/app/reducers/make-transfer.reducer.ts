@@ -1,89 +1,70 @@
 import * as _ from 'lodash';
+import {Actions, isNgrxFormsAction} from 'ngrx-forms';
+import {TransferAppState} from './state-model';
+import {Action} from '@ngrx/store';
 import {
-  createFormGroupState,
-  formGroupReducer,
+  EDIT_TRANSFER_X,
+  EDIT_TRANSFER_Y,
+  isTransferEditAction,
+  isTransferNavigationAction,
+  STEP_001_AMOUNT,
+  STEP_001_IS_VIP,
+  STEP_002_NAME,
+  STEP_003_MOTIVE,
+  TransferEditAction,
+  TransferNavigationAction
+} from './actions';
+import {
+  amountReducer,
+  EditTransferXReducer,
+  EditTransferYReducer,
+  initialState,
+  navigationReducer,
+  step1Reducer,
+  step2Reducer,
+  step3Reducer,
+  vipReducer
+} from './reducers';
 
-  Actions,
-  SetValueAction, FormGroupState
-} from 'ngrx-forms';
-import {Step1State, Step2State, Step3State, TransferAppState} from './state-model';
+export function makeTransferReducer(state = initialState, action: Action): TransferAppState {
+  console.log(action);
+  state = _.merge(state, step1Reducer(state, action), step2Reducer(state, action), step3Reducer(state, action));
 
-const FORM_ID_STEP_1 = 'STEP_001';
-const STEP_001_AMOUNT = 'STEP_001.amount';
-const STEP_001_IS_VIP = 'STEP_001.isVIP';
+  if (isNgrxFormsAction(action)) {
+    const a = <Actions<any>>action;
 
-const FORM_ID_STEP_2 = 'STEP_002';
-const STEP_002_NAME = 'STEP_002.name';
-
-const FORM_ID_STEP_3 = 'STEP_003';
-const STEP_003_MOTIVE = 'STEP_002.motive';
-
-const initialStep1FormState = createFormGroupState<Step1State>(FORM_ID_STEP_1, {
-  amount: 0,
-  isVIP: false,
-});
-
-const initialStep2FormState = createFormGroupState<Step2State>(FORM_ID_STEP_2, {
-  name: ''
-});
-
-const initialStep3FormState = createFormGroupState<Step3State>(FORM_ID_STEP_3, {
-  motive: ''
-});
-
-const initialState = {
-  formState1: initialStep1FormState,
-  formState2: initialStep2FormState,
-  formState3: initialStep3FormState,
-  currentPage: 0,
-  nextPage: 1,
-};
-
-function step1Reducer(state = initialState, action: Actions<any>): FormGroupState<Step1State> {
-  const formState1 = formGroupReducer(state.formState1, action);
-  if (formState1 !== state.formState1 ) {
-     state = {...state, formState1}  ;
+    switch (a.controlId) {
+      case STEP_001_AMOUNT:
+        state = amountReducer(state, a);
+        break;
+      case STEP_001_IS_VIP:
+        state = vipReducer(state, a);
+        break;
+      case STEP_002_NAME:
+        console.log('name');
+        break;
+      case STEP_003_MOTIVE:
+        console.log('motive');
+        break;
+    }
   }
-  return state.formState1;
-}
 
-function step2Reducer(state = initialState, action: Actions<any>): FormGroupState<Step2State> {
-  const formState2 = formGroupReducer(state.formState2, action);
-  if (formState2 !== state.formState2 ) {
-    state = {...state, formState2}  ;
+  if (isTransferNavigationAction(action)) {
+    state = _.merge(state, navigationReducer(state, action as TransferNavigationAction));
   }
-  return state.formState2;
-}
 
-function step3Reducer(state = initialState, action: Actions<any>): FormGroupState<Step3State> {
-  const formState3 = formGroupReducer(state.formState3, action);
-  if (formState3 !== state.formState3 ) {
-    state = {...state, formState3}  ;
+  if (isTransferEditAction(action)) {
+    switch (action.type) {
+      case EDIT_TRANSFER_X:
+        state = _.merge(state, EditTransferXReducer(state, action as TransferEditAction));
+        break;
+      case EDIT_TRANSFER_Y:
+        state = _.merge(state, EditTransferYReducer(state, action as TransferEditAction));
+        break;
+    }
   }
-  return state.formState3;
-}
 
-export function makeTransferReducer(state = initialState, action: Actions<any>): TransferAppState {
-
-  state = _.merge(state,
-    {formState1: step1Reducer(state, action)},
-    {formState2: step2Reducer(state, action)},
-    {formState3: step3Reducer(state, action)});
-
-  switch (action.controlId) {
-    case STEP_001_AMOUNT:
-      break;
-    case STEP_001_IS_VIP:
-      if (action.type === SetValueAction.TYPE) {
-        console.log('isVIP'); }
-      break;
-    case STEP_002_NAME:
-      console.log('name');
-      break;
-    case STEP_003_MOTIVE:
-      console.log('motive');
-      break;
-  }
   return state;
-
 }
+
+

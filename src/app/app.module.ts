@@ -9,19 +9,26 @@ import { Step3Component } from './step3/step3.component';
 import {StoreModule} from '@ngrx/store';
 import {makeTransferReducer} from './reducers/make-transfer.reducer';
 import {NgrxFormsModule} from 'ngrx-forms';
+import { ExternalPageComponent } from './external-page/external-page.component';
+import { MakeTransferComponent } from './make-transfer/make-transfer.component';
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
     Step1Component,
     Step2Component,
-    Step3Component
+    Step3Component,
+    ExternalPageComponent,
+    MakeTransferComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgrxFormsModule,
     StoreModule.forRoot({makeTransfer: makeTransferReducer})
+    // !environment.production ? StoreDevtoolsModule.instrumentStore() : []
   ],
   providers: [],
   bootstrap: [AppComponent]

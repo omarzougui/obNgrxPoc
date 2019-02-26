@@ -1,17 +1,16 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import {Step1Component} from './step1/step1.component';
-import {Step2Component} from './step2/step2.component';
-import {Step3Component} from './step3/step3.component';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {ExternalPageComponent} from './external-page/external-page.component';
+import {MakeTransferComponent} from './make-transfer/make-transfer.component';
 
 const routes: Routes = [
-  {path: 'step1', component: Step1Component},
-  {path: 'step2', component: Step2Component},
-  {path: 'step3', component: Step3Component},
+  {path: 'external', component: ExternalPageComponent},
+  {path: 'transfer', component: MakeTransferComponent},
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

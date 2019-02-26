@@ -11,12 +11,15 @@ import {FormGroupState} from 'ngrx-forms';
 })
 export class Step1Component implements OnInit {
   formState1$: Observable<FormGroupState<Step1State>>;
+  amountReadonly$: Observable<boolean>;
 
   constructor(private  store: Store<{ makeTransfer: TransferAppState }>) {
   }
 
   ngOnInit() {
     this.formState1$ = this.store.select(s => s.makeTransfer.formState1);
+    this.amountReadonly$ = this.store.select(s => s.makeTransfer.config.amountReadonly);
+
   }
 
   logState() {
